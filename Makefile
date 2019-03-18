@@ -1,9 +1,22 @@
+OS := $(shell uname)
+
 build:
 	sudo docker-compose build php
 down:
-	sudo docker-compose down
+
+ifeq ($(OS),Darwin)
+	docker-sync-stack clean
+else
+	docker-compose down --remove-orphans
+endif
+
 up:
-	sudo docker-compose up
+ifeq ($(OS),Darwin)
+	docker-sync-stack start
+else
+	docker-compose up -d
+	docker-compose logs -f
+endif
 clear:
 	sudo rm -rf .docker/*/logs/*
 	sudo rm -rf .docker/*/data/*
@@ -23,7 +36,6 @@ fix-permission:
 #	sudo chown -R $(shell whoami):$(shell whoami) .docker/*/data/*
 	sudo chown -R $(shell whoami):$(shell whoami) .docker/*/logs/*
 
-
-tests:
+test:
 #	sudo docker-compose exec php vendor/bin/codecept run
 
