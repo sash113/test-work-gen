@@ -6,6 +6,11 @@
 parameters:
     locale: 'en'
 
+    app.web_sockets_api_key: '%env(CENTRIFUGO_API_KEY)%'
+    app.web_sockets_host: '%env(CENTRIFUGO_HOST)%'
+    app.web_sockets_port: '%env(CENTRIFUGO_PORT)%'
+    app.web_sockets_protocol: '%env(CENTRIFUGO_PROTOCOL)%'
+
 services:
     # default configuration for services in *this* file
     _defaults:

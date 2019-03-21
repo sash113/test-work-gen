@@ -1,0 +1,8 @@
+framework:
+    messenger:
+        transport:
+            serializer: true
+        transports:
+            amqp: "%env(MESSENGER_TRANSPORT_DSN)%"
+        routing:
+            'App\Message\NewUserMessage':  amqp

@@ -23,6 +23,7 @@ php7.2-xmlrpc \
 php7.2-xsl \
 php7.2-zip  \
 php7.2-xdebug  \
+php-amqp \
 bash-completion \
 supervisor
 

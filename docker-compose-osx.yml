@@ -55,11 +55,11 @@ services:
 
   mysql:
     container_name: ${COMPOSE_PROJECT_NAME}_mysql
-    image: percona:5.6
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --init-connect='SET NAMES UTF8MB4;' --innodb-flush-log-at-trx-commit=0
+    image: percona:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
     volumes:
-      - ./.docker/mysql/config/my.cfg:/etc/mysql/my.cnf:ro
-      - ./.docker/mysql/initdb:/docker-entrypoint-initdb.d/:ro
+#      - ./.docker/mysql/config/my.cfg:/etc/mysql/my.cnf:ro
+#      - ./.docker/mysql/initdb:/docker-entrypoint-initdb.d/:ro
       - ./.docker/mysql/data:/var/lib/mysql:rw
       - ./.docker/mysql/logs:/var/log/mysql:rw
     environment:
@@ -69,16 +69,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     ports:
     - ${MYSQL_PORT}:3306
-
-  redis:
-    container_name: ${COMPOSE_PROJECT_NAME}_redis
-    image: redis:4
-    command: 'redis-server /usr/local/etc/redis/redis.conf'
-    volumes:
-      - ./.docker/redis/config/redis.conf:/usr/local/etc/redis/redis.conf:ro
-      - ./.docker/redis/data:/data:rw
-    ports:
-      - ${REDIS_PORT}:6379
 
   rabbitmq:
     container_name: ${COMPOSE_PROJECT_NAME}_rabbitmq

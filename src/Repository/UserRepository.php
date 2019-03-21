@@ -1,9 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -14,37 +17,35 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    /**
+     * UserRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, User::class);
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param string|null $firstName
+     * @param string|null $lastName
+     * @return Query
+     */
+    public function searchUserByName(?string $firstName, ?string $lastName): Query
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        /** @var QueryBuilder $query */
+        $query = $this->createQueryBuilder('user');
 
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ($firstName !== null) {
+            $query->andWhere("user.firstName LIKE :firstName")
+            ->setParameter('firstName', "%$firstName%");
+        }
+
+        if ($lastName !== null) {
+            $query->andWhere("user.lastName LIKE :lastName")
+            ->setParameter('lastName', "%$lastName%");
+        }
+
+        return $query->getQuery();
     }
-    */
 }
