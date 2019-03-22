@@ -118,10 +118,9 @@ class UserController extends AbstractBaseRestController
             ]
         );
 
-        return
-            [
-                'success' => true,
-                'data' => $pagination, 'pagination' => $pagination->getPaginationData()
-            ];
+        return [
+            'success' => true,
+            'data' => $pagination, 'pagination' => $pagination->getPaginationData()
+         ];
     }
 }
