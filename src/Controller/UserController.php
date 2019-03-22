@@ -40,19 +40,16 @@ class UserController extends AbstractBaseRestController
      * UserController constructor.
      * @param SessionService $sessionService
      * @param MessageBusInterface $messageBus
-     * @param EntityManagerInterface $entityManager
      * @param UserRepository $userRepository
      * @param PaginatorInterface $paginator
      */
     public function __construct(
         SessionService $sessionService,
         MessageBusInterface $messageBus,
-        EntityManagerInterface $entityManager,
         UserRepository $userRepository,
         PaginatorInterface $paginator
     ) {
         $this->sessionService = $sessionService;
-        $this->entityManager = $entityManager;
         $this->messageBus = $messageBus;
         $this->userRepository = $userRepository;
         $this->paginator = $paginator;
