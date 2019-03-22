@@ -36,6 +36,3 @@ fix-permission:
 #	sudo chown -R $(shell whoami):$(shell whoami) .docker/*/data/*
 	sudo chown -R $(shell whoami):$(shell whoami) .docker/*/logs/*
 
-test:
-#	sudo docker-compose exec php vendor/bin/codecept run
-
