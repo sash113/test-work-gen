@@ -87,7 +87,10 @@ class UserController extends AbstractBaseRestController
         // Dispatch notify about new user
         $this->messageBus->dispatch(new NewUserMessage($sessionId, $user));
 
-        return ['data' => ['sessionId' => $sessionId]];
+        return [
+            'success' => true,
+            'data' => ['sessionId' => $sessionId]
+        ];
     }
 
     /**
