@@ -19,5 +19,6 @@ framework:
     property_info:
         enabled: true
 
-    serializer: { enabled: true }
     validation: { enabled: true, enable_annotations: true }
+    serializer:
+        circular_reference_handler: App\Utils\CircularReferenceHandler

@@ -61,8 +61,6 @@ class NewUserMessage
         $this->user = $user;
     }
 
-
-
     /**
      * @return int
      */

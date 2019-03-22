@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Phone;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -24,6 +26,12 @@ class UserFormType extends AbstractType
             ->add('lastName', TextType::class, [
                 'constraints' => new NotBlank()
             ])
+//            ->add('phoneNumbers', CollectionType::class, [
+//                'property_path' => 'phones',
+//                'allow_add' => true,
+//                'entry_type' => TelType::class,
+//                'allow_extra_fields' => true
+//            ]);
         ;
     }
 
@@ -32,6 +40,7 @@ class UserFormType extends AbstractType
         $resolver->setDefaults([
             'csrf_protection' => false,
             'allow_extra_fields' => true,
+            'validation_groups' => false,
             'data_class' => User::class,
         ]);
     }

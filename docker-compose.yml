@@ -77,15 +77,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
-
-  frontend:
-    container_name: ${COMPOSE_PROJECT_NAME}_frontend
-    build:
-      context: .
-      dockerfile: .docker/frontend/Dockerfile
-    volumes:
-      - ./frontend:/app
-
   centrifugo:
     container_name: ${COMPOSE_PROJECT_NAME}_centrifugo
     image: centrifugo/centrifugo

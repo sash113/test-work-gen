@@ -39,7 +39,7 @@ class User
     private $lastName;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Phone", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Phone", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
      * @Groups({"default"})
      */
     private $phones;

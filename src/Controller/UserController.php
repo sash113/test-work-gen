@@ -3,21 +3,19 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Response\ResponseOk;
-use App\Entity\Response\ResponseValidationError;
+use App\Entity\Phone;
 use App\Entity\User;
 use App\Form\UserFormType;
 use App\Message\NewUserMessage;
 use App\Repository\UserRepository;
 use App\Service\SessionService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Knp\Component\Pager\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations\View;
 
@@ -31,8 +29,6 @@ class UserController extends AbstractBaseRestController
 
     /** @var SessionService */
     private $sessionService;
-    /** @var UserPasswordEncoderInterface */
-    private $passwordEncoder;
     /** @var MessageBusInterface */
     private $messageBus;
     /** @var UserRepository */
@@ -43,20 +39,20 @@ class UserController extends AbstractBaseRestController
     /**
      * UserController constructor.
      * @param SessionService $sessionService
-     * @param UserPasswordEncoderInterface $passwordEncoder
      * @param MessageBusInterface $messageBus
+     * @param EntityManagerInterface $entityManager
      * @param UserRepository $userRepository
      * @param PaginatorInterface $paginator
      */
     public function __construct(
         SessionService $sessionService,
-        UserPasswordEncoderInterface $passwordEncoder,
         MessageBusInterface $messageBus,
+        EntityManagerInterface $entityManager,
         UserRepository $userRepository,
         PaginatorInterface $paginator
     ) {
         $this->sessionService = $sessionService;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->entityManager = $entityManager;
         $this->messageBus = $messageBus;
         $this->userRepository = $userRepository;
         $this->paginator = $paginator;
@@ -78,7 +74,14 @@ class UserController extends AbstractBaseRestController
         $form = $this->processForm(UserFormType::class, $request, $user);
 
         if ($form->isValid() == false) {
-            return new ResponseValidationError($form);
+            return ['success' => false, 'errors' => $form->getErrors()];
+        }
+
+        $phones = $request->request->get('phoneNumbers', []);
+        foreach ($phones as $phone) {
+            $phoneEntity = new Phone();
+            $phoneEntity->setPhone($phone);
+            $user->addPhone($phoneEntity);
         }
 
         // Dispatch notify about new user
@@ -91,7 +94,7 @@ class UserController extends AbstractBaseRestController
      * @Route("/user", name="user_search", methods={"GET"})
      * @View(serializerGroups={"default"})
      * @param Request $request
-     * @return JsonResponse
+     * @return array
      * @throws \Throwable
      */
     public function searchAction(Request $request)
