@@ -30,7 +30,7 @@ class NewUserMessageHandler implements MessageHandlerInterface
      * @throws \Throwable
      */
     public function __invoke(NewUserMessage $message)
-    {file_put_contents('111.log', $message->getSessionId());
+    {
         $this->userService->createUser($message->getUser());
     }
 }
