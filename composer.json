@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "friendsofsymfony/rest-bundle": "^2.5",
         "knplabs/knp-paginator-bundle": "^3.0",
+        "nelmio/cors-bundle": "^1.5",
         "sensio/framework-extra-bundle": "^5.2",
         "sl4mmer/phpcent": "dev-master",
         "symfony/asset": "4.2.*",
