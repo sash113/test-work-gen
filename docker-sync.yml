@@ -7,6 +7,6 @@ syncs:
   app-sync:
     sync_strategy: 'native_osx'
     src: './'
-    sync_excludes: ['.git', 'var/cache', '.docker', '.idea', 'vendor']
+    sync_excludes: ['.git', 'var/cache', '.docker', '.idea', 'vendor', 'frontend/node_modules']
     sync_excludes_type: 'Path'
     monit_high_cpu_cycles: 2
