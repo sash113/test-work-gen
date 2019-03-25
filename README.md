@@ -1,12 +1,10 @@
 # test-work-gen
 test-work-gen
 
-For run:
+For start:
 
 *make build && make up*
 
-Start message listener:
+Start frontend:
 
-*docker-compose exec php bash*
-
-*./bin/console messenger:consume-messages*
+*yarn dev*
