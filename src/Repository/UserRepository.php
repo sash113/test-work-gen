@@ -36,13 +36,13 @@ class UserRepository extends ServiceEntityRepository
         /** @var QueryBuilder $query */
         $query = $this->createQueryBuilder('user');
 
-        if ($firstName !== null) {
-            $query->andWhere("user.firstName LIKE :firstName")
+        if (!empty($firstName)) {
+            $query->where("user.firstName LIKE :firstName")
             ->setParameter('firstName', "%$firstName%");
         }
 
-        if ($lastName !== null) {
-            $query->andWhere("user.lastName LIKE :lastName")
+        if (!empty($lastName)) {
+            $query->orWhere("user.lastName LIKE :lastName")
             ->setParameter('lastName', "%$lastName%");
         }
 
